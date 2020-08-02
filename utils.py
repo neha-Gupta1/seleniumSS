@@ -2,17 +2,18 @@ import time
 import boto3
 from botocore.client import Config
 
-def takeSS(driver,url):
+def takeSS(driver,url,driverType):
     driver.get(url)
     time.sleep(2)
     driver.save_screenshot("screenshot1.png")
-    outputUrl=upload_to_aws("screenshot1.png", 'bucketseleniumfail', "passing1.png")
+    filename=str.format("SS_"+driverType)
+    outputUrl=upload_to_aws("screenshot1.png", 'bucketseleniumfail', filename)
     driver.quit()
     return outputUrl
 
 
 def upload_to_aws(local_file, bucket, s3_file):
-    s3 = boto3.client('s3', aws_access_key_id="******", aws_secret_access_key="*********",config=Config(signature_version='s3v4')) #
+    s3 = boto3.client('s3', aws_access_key_id="****", aws_secret_access_key="****",config=Config(signature_version='s3v4')) #
 
     try:
         s3.upload_file(local_file, bucket, s3_file)
@@ -21,7 +22,7 @@ def upload_to_aws(local_file, bucket, s3_file):
     
     url = s3.generate_presigned_url(
         ClientMethod='get_object',
-        ExpiresIn=60,
+        ExpiresIn=1800,
         Params={
             'Bucket': bucket,
             'Key': s3_file

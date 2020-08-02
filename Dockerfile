@@ -22,7 +22,6 @@ RUN pip3 install -r ./requirements.txt
 
 #some envs
 ENV APP_HOME /app 
-# ENV PORT 5000
 
 #set workspace
 WORKDIR ${APP_HOME}
@@ -32,5 +31,5 @@ COPY . .
 
 EXPOSE 5000
 
-CMD python3 app.py
-# CMD [ "app.py" ] 
+# CMD python3 app.py
+CMD ["flask", "run"]

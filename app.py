@@ -13,7 +13,7 @@ import utils
 
 app = Flask(__name__)
 
-@app.route('/ss/chrome/url')
+@app.route('/ss/chrome')
 def test_chrome_screenshot(): 
     url = request.args.get('url')
     chrome_options=Options()
@@ -22,10 +22,10 @@ def test_chrome_screenshot():
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--start-maximized')
     driver = webdriver.Chrome(ChromeDriverManager().install(),options=chrome_options)
-    outputUrl=utils.takeSS(driver,url)    
+    outputUrl=utils.takeSS(driver,url,"chrome")    
     return outputUrl
 
-@app.route('/ss/firefox/url')
+@app.route('/ss/firefox')
 def test_firefox_screenshot():  
     url = request.args.get('url')
     firefox_options=FireOptions()
@@ -34,7 +34,7 @@ def test_firefox_screenshot():
     firefox_options.add_argument('--disable-gpu')
     firefox_options.add_argument('--start-maximized')
     driver = webdriver.Firefox(executable_path=GeckoDriverManager().install(),options=firefox_options)
-    outputUrl=utils.takeSS(driver,url) 
+    outputUrl=utils.takeSS(driver,url,"firefox") 
     return outputUrl
 
 @app.route('/')
@@ -42,5 +42,5 @@ def homePage():
     return "home page"
     
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0")
     
