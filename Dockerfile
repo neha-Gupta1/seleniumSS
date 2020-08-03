@@ -16,6 +16,7 @@ RUN apt install -y ./google-chrome-stable_current_amd64.deb
 #download and install firefox
 RUN apt install -y firefox
 
+RUN export LC_ALL=en_US.utf-8 && export LANG=en_US.utf-8
 #install python dependencies
 COPY requirements.txt requirements.txt 
 RUN pip3 install -r ./requirements.txt 
@@ -31,5 +32,6 @@ COPY . .
 
 EXPOSE 5000
 
-# CMD python3 app.py
-CMD ["flask", "run"]
+ CMD python3 app.py
+#ENTRYPOINT [ "python" ]
+#CMD [ "app.py" ]
